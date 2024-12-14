@@ -79,6 +79,39 @@ def main():
 
 def strategy():
     print("Inside Strategy...")
+
+    # Make a request to get the funds information
+    funds = fyers.funds()
+    #print("Fyers Funds : ",funds)
+
+    holdings = fyers.holdings()
+    #print("Fyers Holdings : ",holdings)
+    
+    trdBook = fyers.tradebook()
+    #print("Fyers TradeBook : ",trdBook)
+
+    data = {
+            "symbols":"NSE:SBIN-EQ,NSE:IDEA-EQ"
+        }
+
+    quotes = fyers.quotes(data=data)
+    #print("Fyers Quotes : ",quotes)
+
+    data = {
+            "symbol":"NSE:SBIN-EQ",
+            "resolution":"1",
+            "date_format":"1",
+            "range_from":str((datetime.now() - timedelta(days=2)).date()),
+            "range_to":str(datetime.now().date()),
+            "cont_flag":"1"
+    }
+
+    candle_data = fyers.history(data=data)
+    data = pd.DataFrame(candle_data['candles'],columns=['date','open','high','low','close','volume'])
+    data['date'] = data["date"].apply(pd.Timestamp,unit='s',tzinfo = pytz.timezone('Asia/Kolkata'))
+    data = data.sort_values(by='date')
+    print(data)
     
 if __name__ == "__main__":
     main()
+    strategy()
