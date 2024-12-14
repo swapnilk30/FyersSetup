@@ -77,7 +77,7 @@ def main():
         print("Fyers Profile : ", profile)
         
 
-def strategy():
+def strategy(ticker):
     print("Inside Strategy...")
 
     # Make a request to get the funds information
@@ -98,7 +98,7 @@ def strategy():
     #print("Fyers Quotes : ",quotes)
 
     data = {
-            "symbol":"NSE:SBIN-EQ",
+            "symbol":ticker,#"NSE:SBIN-EQ",
             "resolution":"1",
             "date_format":"1",
             "range_from":str((datetime.now() - timedelta(days=2)).date()),
@@ -112,12 +112,14 @@ def strategy():
     data = data.sort_values(by='date')
     print(data)
 
-    
+
 if __name__ == "__main__":
     main()
 
     exchange = "NSE"
-    sec_type = "EQ"
-    symbol = 'SBIN'
+    sec_type = 'INDEX' # EQ
+    symbol = 'NIFTYBANK' # SBIN TCS
+    ticker = f"{exchange}:{symbol}-{sec_type}"
+    print(ticker)
 
-    strategy()
+    strategy(ticker)
