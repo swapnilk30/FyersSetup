@@ -1,0 +1,23 @@
+# Exclude the virtual environment
+myenv/
+
+# Python-related files
+*.pyc
+*.pyo
+__pycache__/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# macOS-specific files
+.DS_Store
+
+# Environment and credentials files (example)
+.env
+
+
+data.json
+refresh_token.json
+ScripMaster.json
+Config.yaml
