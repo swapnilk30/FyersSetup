@@ -111,7 +111,13 @@ def strategy():
     data['date'] = data["date"].apply(pd.Timestamp,unit='s',tzinfo = pytz.timezone('Asia/Kolkata'))
     data = data.sort_values(by='date')
     print(data)
+
     
 if __name__ == "__main__":
     main()
+
+    exchange = "NSE"
+    sec_type = "EQ"
+    symbol = 'SBIN'
+
     strategy()
