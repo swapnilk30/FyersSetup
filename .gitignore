@@ -21,3 +21,4 @@ data.json
 refresh_token.json
 ScripMaster.json
 Config.yaml
+auth_tokens.json
