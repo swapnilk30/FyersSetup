@@ -113,6 +113,45 @@ def strategy(ticker):
     print(data)
 
 
+
+
+
+###########################################
+def fetchOHLC(ticker,interval,duration):
+    """extracts historical data and outputs in the form of dataframe"""
+    instrument = ticker
+    data = {"symbol":instrument,"resolution":interval,"date_format":"1","range_from":datetime.date.today()-datetime.timedelta(duration),"range_to":datetime.date.today(),"cont_flag":"1"}
+    sdata=fyers.history(data)
+    # print(sdata)
+    sdata=pd.DataFrame(sdata['candles'])
+    sdata.columns=['date','open','high','low','close','volume']
+    sdata['date']=pd.to_datetime(sdata['date'], unit='s')
+    sdata.date=(sdata.date.dt.tz_localize('UTC').dt.tz_convert('Asia/Kolkata'))
+    sdata['date'] = sdata['date'].dt.tz_localize(None)
+    sdata=sdata.set_index('date')
+    return sdata
+
+
+def gethistory(symbol1,type,duration):
+    symbol="NSE:"+symbol1+"-"+type
+    start=datetime.date.today()-datetime.timedelta(duration)
+    end=datetime.date.today()-datetime.timedelta()
+    sdata=pd.DataFrame()
+    while start <= end:
+        end2=start+datetime.timedelta(60)
+        data = {"symbol":symbol,"resolution":"1","date_format":"1","range_from":start,"range_to":end2,"cont_flag":"1"}
+        s=fyers.history(data)
+        s=pd.DataFrame(s['candles'])
+        sdata=pd.concat([sdata,s],ignore_index=True)
+        start=end2+datetime.timedelta(1)
+    sdata.columns=['date','open','high','low','close','volume']
+    sdata["date"]=pd.to_datetime(sdata['date'], unit='s')
+    sdata.date=(sdata.date.dt.tz_localize('UTC').dt.tz_convert('Asia/Kolkata'))
+    sdata['date'] = sdata['date'].dt.tz_localize(None)
+    sdata=sdata.set_index('date')
+    return sdata
+
+###########################################
 if __name__ == "__main__":
     main()
 
@@ -123,3 +162,5 @@ if __name__ == "__main__":
     print(ticker)
 
     strategy(ticker)
+
+    

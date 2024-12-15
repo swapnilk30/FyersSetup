@@ -28,3 +28,4 @@ def send_telegram_file(file_name, telegram_bot_credential, receiver_telegram_id)
             logger.info(f"Telegram file sent successfully: {file_name}")
     except Exception as e:
         logger.error(f"Failed to send Telegram file: {e}")
+
