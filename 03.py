@@ -3,7 +3,7 @@ from broker_utils import send_message_to_telegram
 
 import sys
 import os
-import pytz
+from pytz import timezone
 import json
 import base64
 import pyotp
@@ -18,6 +18,8 @@ import warnings
 
 import pandas as pd
 import pandas_ta as ta
+
+from logzero import logger
 
 from fyers_apiv3 import fyersModel
 
@@ -102,7 +104,7 @@ def fetchOHLC(ticker,interval,duration):
     #data['date']=pd.to_datetime(data['date'], unit='s')
     #sdata.date=(sdata.date.dt.tz_localize('UTC').dt.tz_convert('Asia/Kolkata'))
     #sdata['date'] = sdata['date'].dt.tz_localize(None)
-    data['date'] = data["date"].apply(pd.Timestamp,unit='s',tzinfo = pytz.timezone('Asia/Kolkata'))
+    data['date'] = data["date"].apply(pd.Timestamp,unit='s',tzinfo = timezone('Asia/Kolkata'))
     data=data.set_index('date')
     #data = data.sort_values(by='date')
     return data
@@ -118,7 +120,7 @@ def strategy():
             print("Inside While Loop.......")
             
             # Print current time
-            current_time = datetime.now(pytz.timezone("Asia/Kolkata")).time()
+            current_time = datetime.now(timezone("Asia/Kolkata")).time()
             print(f"Current Time: {current_time}")
 
             data=fetchOHLC(ticker="NSE:NIFTYBANK-INDEX",interval='1',duration=5)
@@ -132,5 +134,9 @@ def strategy():
 if __name__ == "__main__":
 
     doLogin()
+
+    # Send message to Telegram
+    message = "Login successfully!"
+    send_message_to_telegram(message,TelegramBotCredential,ReceiverTelegramID)
 
     strategy()
