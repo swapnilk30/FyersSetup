@@ -123,7 +123,7 @@ def strategy():
             current_time = datetime.now(timezone("Asia/Kolkata")).time()
             print(f"Current Time: {current_time}")
 
-            data=fetchOHLC(ticker="NSE:NIFTYBANK-INDEX",interval='1',duration=5)
+            data=fetchOHLC(ticker="NSE:NIFTYBANK-INDEX",interval='5',duration=5)
             print(data)
             
             sleep(10)
